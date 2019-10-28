@@ -7,7 +7,7 @@ const helmet = require('helmet');
 const path = require('path');
 
 //Configuration
-const port = process.end.PORT || 4000;
+const port = process.env.PORT || 4000;
 app.use(logger('dev'));
 app.use(helmet());
 app.use(express.urlencoded({ extended: false }));
