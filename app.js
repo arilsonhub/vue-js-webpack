@@ -7,6 +7,7 @@ const helmet = require('helmet');
 const path = require('path');
 
 //Configuration
+const port = process.end.PORT || 4000;
 app.use(logger('dev'));
 app.use(helmet());
 app.use(express.urlencoded({ extended: false }));
@@ -17,4 +18,4 @@ app.get('/', function(req,res) {
 });
 
 var server = http.createServer(app);
-server.listen(4000);
+server.listen(port);
