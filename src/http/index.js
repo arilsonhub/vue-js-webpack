@@ -6,7 +6,7 @@ import interceptors from './interceptors'
 Vue.use(VueResource)
 
 const http = Vue.http;
-http.options.root = 'http://localhost:5000/';
+http.options.root = 'https://desolate-waters-97755.herokuapp.com/';
 http.interceptors.push(interceptors);
 
 Object.keys(services).map(service => {
