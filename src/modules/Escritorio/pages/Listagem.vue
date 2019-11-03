@@ -18,8 +18,7 @@
                            <tr>
                               <th>Código</th>
                               <th>Nome</th>
-                              <th>CPF</th>
-                              <th>Fone</th>
+                              <th>CPF</th>                              
                               <th>Estado</th>
                               <th>Cidade</th>
                               <th>Data do cadastro</th>
@@ -31,15 +30,18 @@
                            <tr v-for="item in escritorioList">
                               <td>{{item.id}}</td>
                               <td>{{item.nome}}</td>
-                              <td>{{item.cpf | formatCpf}}</td>
-                              <td>{{item.fone}}</td>
+                              <td>{{item.cpf | formatCpf}}</td>                              
                               <td>{{item.estado}}</td>
                               <td>{{item.cidade}}</td>
                               <td>{{item.dataCadastro | formatDate}}</td>                              
                               <td><label class="" v-bind:class="{'badge badge-success': item.ativo,  'badge badge-danger': !item.ativo}">{{item.ativo ? 'Ativo' : 'Inativo'}}</label></td>
                               <td>
-                                  <button type="button" class="btn btn-outline-secondary btn-icon-text" @click="editarEscritorio(item.id)">
+                                  <button v-bind:disabled="exibirLoader" type="button" class="btn btn-outline-secondary btn-icon-text" @click="editarEscritorio(item.id)">
                                         Editar
+                                        <i class="ti-file btn-icon-append"></i>
+                                  </button>
+                                  <button v-bind:disabled="exibirLoader" type="button" class="btn btn-outline-secondary btn-icon-text" @click="removerEscritorio(item.id)">
+                                        Remover
                                         <i class="ti-file btn-icon-append"></i>
                                   </button>
                               </td>
@@ -70,7 +72,7 @@ export default {
         ...mapState('escritorio', ['escritorioList'])
     },
     methods: {
-        ...mapActions('escritorio', ['ActionListar', 'ActionGetEscritorio']),
+        ...mapActions('escritorio', ['ActionListar', 'ActionGetEscritorio', 'ActionRemover']),
          async getData () {
             try {
                this.exibirLoader = true
@@ -86,6 +88,18 @@ export default {
          },
          editarEscritorio(id){
             this.$router.push({name: 'EditarEscritorio', params: { id: id }})
+         },
+         async removerEscritorio(id){
+            if(confirm("Confirma a remoção do registro?")){
+               try {
+                  this.exibirLoader = true
+                  await this.ActionRemover({id: id})
+                  this.exibirLoader = false
+               } catch (err) {
+                  this.exibirLoader = false
+                  alert(err.data ? err.data.message : 'Não foi possível remover o escritório')
+               }
+            }
          }
     }
 }

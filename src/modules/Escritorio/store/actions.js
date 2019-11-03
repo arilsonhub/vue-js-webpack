@@ -35,6 +35,13 @@ export const ActionGetEscritorio = ({ commit }, payload) => {
    })
 }
 
+export const ActionRemover = ({ dispatch }, payload) => {     
+   return services.escritorio.remover({id: payload.id}).then(response => {
+      alert(response.data.message)
+      dispatch('ActionListar')
+   })
+}
+
 export const ActionSetEscritorio = ({ commit },payload) => {     
      commit(types.SET_ESCRITORIO_LIST, payload)
 }
