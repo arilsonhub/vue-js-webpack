@@ -79,9 +79,10 @@
                               <option value="false">Inativo</option>                                                    
                         </select>                        
                      </div>                     
-                     <button type="submit" class="btn btn-primary mr-2">Confirmar</button>
-                     <button type="button" class="btn btn-light" v-on:click.stop="voltar()">Voltar</button>
+                     <button type="submit" v-bind:disabled="exibirLoader" class="btn btn-primary mr-2">Confirmar</button>
+                     <button type="button" v-bind:disabled="exibirLoader" class="btn btn-light" v-on:click.stop="voltar()">Voltar</button>
                   </form>
+                  <img class="progress-loader" v-show="exibirLoader" src="/static/img/progress-loader.gif" />
                </div>
             </div>
          </div>
@@ -95,6 +96,7 @@ import {mapActions, mapState} from 'vuex'
 
 export default {
     data: () => ({
+        exibirLoader: false,
         form: {
             id: '',
             nome: '',
@@ -118,16 +120,22 @@ export default {
         ...mapActions('escritorio', ['ActionCadastrar', 'ActionGetEscritorio']),
         async submit () {           
             try{
+                this.exibirLoader = true
                 await this.ActionCadastrar(this.form)
-            }catch(err){                
+                this.exibirLoader = false
+            }catch(err){
+                this.exibirLoader = false
                 alert(err.data ? err.data.message : 'Não foi possível salvar os dados')
             }
         },
         async getEscritorio(id) {
             try{
+                this.exibirLoader = true
                 this.form.id = id                
                 await this.ActionGetEscritorio(this.form)
+                this.exibirLoader = false
             }catch(err){
+                this.exibirLoader = false
                 alert(err.data ? err.data.message : 'Não foi possível buscar dados do escritório')
             }
         },

@@ -7,12 +7,10 @@
                <div class="card-body">
                   <h4 class="card-title">Escritórios</h4>
                   <p>
-                     <router-link class="nav-link" :to="{ name: 'IncluirEscritorio' }">
-                        <button type="button" class="btn btn-outline-primary btn-icon-text">
+                     <button @click="incluirEscritorio()" type="button" class="btn btn-outline-primary btn-icon-text">
                           <i class="ti-file btn-icon-prepend"></i>
                           Incluir
-                        </button> 
-                    </router-link>                     
+                     </button>          
                   </p>                  
                   <div class="table-responsive">
                      <table class="table table-hover">
@@ -29,7 +27,7 @@
                               <th>&nbsp;</th>
                            </tr>
                         </thead>
-                        <tbody>
+                        <tbody>                           
                            <tr v-for="item in escritorioList">
                               <td>{{item.id}}</td>
                               <td>{{item.nome}}</td>
@@ -48,6 +46,7 @@
                            </tr>                                                 
                         </tbody>
                      </table>
+                     <img v-show="exibirLoader" class="progress-loader-listagem" src="/static/img/progress-loader.gif" />
                   </div>
                </div>
             </div>
@@ -61,6 +60,9 @@
 import {mapActions, mapState} from 'vuex'
 
 export default {
+   data: () => ({
+        exibirLoader: false
+    }),
     mounted (){
        this.getData()
     },
@@ -71,10 +73,16 @@ export default {
         ...mapActions('escritorio', ['ActionListar', 'ActionGetEscritorio']),
          async getData () {
             try {
+               this.exibirLoader = true
                await this.ActionListar()
+               this.exibirLoader = false
             } catch (err) {
+               this.exibirLoader = false
                alert(err.data ? err.data.message : 'Não foi possível listar os escritórios')
             }
+         },
+         incluirEscritorio(){
+            this.$router.push({name: 'IncluirEscritorio'})
          },
          editarEscritorio(id){
             this.$router.push({name: 'EditarEscritorio', params: { id: id }})
@@ -84,4 +92,7 @@ export default {
 </script>
 
 <style>
+.progress-loader-listagem {
+   margin-left: 40%;
+}
 </style>

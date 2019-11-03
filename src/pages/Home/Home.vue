@@ -28,8 +28,9 @@
                                     </div>
                                 </div>
                                 <div class="my-3">
-                                    <button class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn">Entrar</button>
-                                </div>
+                                    <button v-bind:disabled="exibirLoader" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn">Entrar</button>
+                                    <img class="progress-loader" v-show="exibirLoader" src="/static/img/progress-loader.gif" />                                    
+                                </div>                                
                             </form>
                         </div>
                     </div>
@@ -45,6 +46,7 @@ import {mapActions} from 'vuex'
 
 export default {
     data: () => ({
+        exibirLoader: false,
         form: {
             username: '',
             senha: ''
@@ -54,9 +56,12 @@ export default {
         ...mapActions('home', ['ActionLogin']),
         async submit () {
             try{
+                this.exibirLoader = true
                 await this.ActionLogin(this.form)
+                this.exibirLoader = false
                 this.$router.push({name: 'DashBoard'})
-            }catch(err){                
+            }catch(err){
+                this.exibirLoader = false                
                 alert(err.data ? err.data.message : 'Não foi possível efetuar login')
             }
         }
@@ -68,4 +73,8 @@ export default {
     @import "../../assets/scss/vendor.bundle.base.scss";
     @import "../../assets/scss/themify-icons.scss";
     @import "../../assets/scss/style.scss";
+
+    .progress-loader {
+        margin-left: 30%;
+    }
 </style>
