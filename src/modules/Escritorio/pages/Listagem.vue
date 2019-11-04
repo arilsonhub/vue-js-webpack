@@ -36,11 +36,11 @@
                               <td>{{item.dataCadastro | formatDate}}</td>                              
                               <td><label class="" v-bind:class="{'badge badge-success': item.ativo,  'badge badge-danger': !item.ativo}">{{item.ativo ? 'Ativo' : 'Inativo'}}</label></td>
                               <td>
-                                  <button v-bind:disabled="exibirLoader" type="button" class="btn btn-outline-secondary btn-icon-text" @click="editarEscritorio(item.id)">
+                                  <button style="width: 80%;" v-bind:disabled="exibirLoader" type="button" class="btn btn-outline-secondary btn-icon-text" @click="editarEscritorio(item.id)">
                                         Editar
                                         <i class="ti-file btn-icon-append"></i>
-                                  </button>
-                                  <button v-bind:disabled="exibirLoader" type="button" class="btn btn-outline-secondary btn-icon-text" @click="removerEscritorio(item.id)">
+                                  </button><br /><br />
+                                  <button style="width: 80%;" v-bind:disabled="exibirLoader" type="button" class="btn btn-outline-secondary btn-icon-text" @click="removerEscritorio(item.id)">
                                         Remover
                                         <i class="ti-file btn-icon-append"></i>
                                   </button>
