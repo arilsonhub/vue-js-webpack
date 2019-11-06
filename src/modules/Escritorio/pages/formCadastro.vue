@@ -109,15 +109,19 @@ export default {
             ativo: ''
         }
     }),
-    mounted (){       
+    mounted (){
        if(typeof(this.$route.params.id) != "undefined")
-          this.getEscritorio(this.$route.params.id);       
+          this.getEscritorio(this.$route.params.id);          
+       this.resetData()
     },
     computed: {
       ...mapState('escritorio', ['formCadastroErrorObj'])
     },
     methods: {
-        ...mapActions('escritorio', ['ActionCadastrar', 'ActionGetEscritorio']),
+        ...mapActions('escritorio', ['ActionCadastrar', 'ActionGetEscritorio', 'ActionResetData']),
+        resetData () {
+           this.ActionResetData()
+        },
         async submit () {           
             try{
                 this.exibirLoader = true

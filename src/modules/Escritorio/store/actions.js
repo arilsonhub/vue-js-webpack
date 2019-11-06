@@ -2,6 +2,10 @@ import services from '@/http'
 import * as types from './mutation-types'
 import filters from "../../../filters"
 
+export const ActionResetData = ({ commit }) => {   
+   commit(types.SET_FORM_CADASTRO_ERROR_OBJ, {})
+}
+
 export const ActionListar = ({ dispatch }) => {     
      return services.escritorio.listar().then(response => {
         dispatch('ActionSetEscritorio', response.data)
